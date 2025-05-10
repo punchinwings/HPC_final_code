@@ -1,0 +1,26 @@
+#!/bin/bash
+#SBATCH --job-name=cnn_mp_1p_10ep
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --partition=development
+#SBATCH --mem=10G
+#SBATCH --account=class-dsci2022
+
+#SBATCH --time=2:00:00
+#SBATCH --output=results/mp__1p_10ep_%j.out
+#SBATCH --error=results/mp_1p_10ep_%j.err
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=hs1342@msstate.edu
+
+echo "Running on $(hostname)"
+echo "SLURM Job ID: $SLURM_JOB_ID"
+echo "SLURM Node List: $SLURM_NODELIST"
+echo "SLURM CPUS on Node: $SLURM_CPUS_ON_NODE"
+
+module load miniconda3
+source activate tfenvcpu
+
+cd /scratch/ptolemy/users/hs1342/cnn_hpc_project
+
+python3 scripts/multipro.py --epochs 10
